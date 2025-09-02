@@ -1,0 +1,148 @@
+# Agent System Configuration
+# This file contains configuration for the modular agent system
+
+# Agent Registry Configuration
+agent_registry:
+  agents_directory: "agents"
+  auto_discovery: true
+  minimum_confidence_threshold: 0.3
+  max_agents_per_query: 5
+
+# Memory Management Configuration
+memory:
+  stm_default_expiry_hours: 1
+  ltm_retention_days: 365
+  vector_search_limit: 10
+  cross_agent_search_enabled: true
+
+# Orchestration Configuration
+orchestration:
+  default_strategy: "auto_select_best_agent"
+  fallback_agent: "ScenicLocationFinder"
+  enable_multi_agent: false
+  max_execution_time_seconds: 30
+
+# LLM Configuration
+llm:
+  default_temperature: 0.7
+  max_tokens: 2000
+  timeout_seconds: 30
+  enable_context_memory: true
+
+# Agent Specific Configuration
+agents:
+  ScenicLocationFinder:
+    temperature: 0.7
+    capabilities:
+      - scenic_location_recommendations
+      - travel_planning
+      - photography_tips
+      - cultural_insights
+      - practical_travel_information
+    keywords:
+      - scenic
+      - mountain
+      - landscape
+      - beautiful
+      - view
+      - tourist
+      - visit
+      - travel
+      - place
+      - location
+      - destination
+      - photography
+      - sight
+      - attraction
+
+  ForestAnalyzer:
+    temperature: 0.6
+    capabilities:
+      - forest_ecosystem_analysis
+      - biodiversity_assessment
+      - conservation_recommendations
+      - wildlife_identification
+      - ecological_research_support
+      - forest_management_advice
+    keywords:
+      - forest
+      - tree
+      - woodland
+      - ecosystem
+      - biodiversity
+      - conservation
+      - wildlife
+      - nature
+      - jungle
+      - rainforest
+      - deforestation
+      - species
+      - habitat
+      - flora
+      - fauna
+
+  WaterBodyAnalyzer:
+    temperature: 0.6
+    capabilities:
+      - water_quality_assessment
+      - aquatic_ecosystem_analysis
+      - hydrological_modeling
+      - marine_biology_insights
+      - water_resource_management
+      - coastal_zone_analysis
+      - water_recreation_guidance
+    keywords:
+      - water
+      - lake
+      - river
+      - ocean
+      - sea
+      - pond
+      - backwater
+      - aquatic
+      - marine
+      - coastal
+      - dam
+      - stream
+      - wetland
+      - hydrology
+      - watershed
+      - estuary
+      - reef
+
+  SearchAgent:
+    temperature: 0.8
+    capabilities:
+      - semantic_search
+      - pattern_recognition
+      - similarity_matching
+      - content_analysis
+      - historical_insights
+      - trend_identification
+    keywords:
+      - search
+      - history
+      - previous
+      - before
+      - recall
+      - remember
+      - similar
+      - past
+      - find
+      - lookup
+      - pattern
+      - trend
+
+# API Configuration
+api:
+  enable_authentication: false  # Set to true for production
+  rate_limiting: false
+  cors_enabled: true
+  max_request_size_mb: 10
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  log_agent_interactions: true
+  log_memory_operations: true
+  log_search_queries: true

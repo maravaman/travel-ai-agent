@@ -1,0 +1,131 @@
+{
+  "entry_point": "RouterAgent",
+  "version": "2.0.0",
+  "description": "JSON-Configurable LangGraph Multi-Agent System - Client-Friendly Agent Creation",
+  "agents": [
+    {
+      "id": "RouterAgent",
+      "name": "Query Router Agent",
+      "description": "Routes queries to appropriate specialized agents based on content analysis",
+      "capabilities": ["query_analysis", "routing", "orchestration", "intent_detection"],
+      "keywords": ["route", "analyze", "direct", "orchestrate"],
+      "priority": 1,
+      "system_prompt_template": "You are an intelligent query router. Analyze the user's query and determine which specialized agents should handle it. Focus on identifying key topics, intents, and required expertise."
+    },
+    {
+      "id": "WeatherAgent",
+      "name": "Weather Analysis Agent",
+      "description": "Provides comprehensive weather information, forecasts, and climate analysis",
+      "capabilities": ["weather_forecast", "climate_analysis", "meteorology", "weather_planning"],
+      "keywords": ["weather", "temperature", "rain", "sun", "climate", "forecast", "humidity", "wind", "storm", "snow", "sunny", "cloudy"],
+      "priority": 2,
+      "system_prompt_template": "You are a professional meteorologist and weather expert. Provide detailed, accurate weather information including current conditions, forecasts, seasonal patterns, and weather-related travel advice. Use emojis to make responses engaging."
+    },
+    {
+      "id": "DiningAgent",
+      "name": "Dining and Restaurant Agent",
+      "description": "Recommends restaurants, cuisines, and provides comprehensive dining experiences",
+      "capabilities": ["restaurant_recommendations", "cuisine_analysis", "dining_planning", "food_culture"],
+      "keywords": ["restaurant", "food", "cuisine", "dining", "eat", "meal", "chef", "menu", "cooking", "recipe", "lunch", "dinner", "breakfast"],
+      "priority": 2,
+      "system_prompt_template": "You are a culinary expert and dining specialist. Provide detailed restaurant recommendations, cuisine analysis, dining experiences, and food culture insights. Consider dietary preferences, local specialties, and atmosphere. Use food emojis to enhance responses."
+    },
+    {
+      "id": "ScenicLocationFinderAgent",
+      "name": "Scenic Location Finder Agent",
+      "description": "Specialized agent for finding beautiful scenic locations and tourist destinations",
+      "capabilities": ["location_search", "tourism_advice", "geographical_analysis", "photography_spots"],
+      "keywords": ["scenic", "beautiful", "location", "tourist", "destination", "view", "landscape", "mountain", "travel", "visit", "sightseeing", "attraction"],
+      "priority": 2,
+      "system_prompt_template": "You are a travel expert and location scout. Provide detailed information about scenic locations, tourist attractions, hidden gems, and travel planning advice. Include practical tips for visiting, best viewing times, and photography opportunities."
+    },
+    {
+      "id": "ForestAnalyzerAgent",
+      "name": "Forest Ecosystem Analyzer Agent",
+      "description": "Specializes in forest ecology, conservation, and biodiversity analysis",
+      "capabilities": ["forest_ecology", "biodiversity", "conservation", "wildlife_analysis"],
+      "keywords": ["forest", "tree", "wildlife", "ecosystem", "conservation", "nature", "biodiversity", "woods", "jungle", "rainforest"],
+      "priority": 3,
+      "system_prompt_template": "You are a forest ecologist and conservation expert. Provide detailed analysis of forest ecosystems, biodiversity, wildlife, conservation efforts, and environmental insights. Focus on ecological relationships and sustainability."
+    },
+    {
+      "id": "SearchAgent",
+      "name": "Memory Search Agent",
+      "description": "Performs similarity search in user history and provides contextual insights",
+      "capabilities": ["memory_search", "similarity_matching", "history_analysis", "pattern_recognition"],
+      "keywords": ["search", "history", "remember", "previous", "similar", "past", "recall", "find", "lookup"],
+      "priority": 4,
+      "system_prompt_template": "You are a memory and search specialist. Analyze user history, find similar queries, identify patterns, and provide contextual insights based on previous interactions. Help users discover connections and patterns in their queries."
+    },
+    {
+      "id": "TravelAgent",
+      "name": "Professional Travel Agent",
+      "description": "Comprehensive travel planning, booking assistance, and vacation recommendations",
+      "capabilities": ["trip_planning", "itinerary_creation", "booking_assistance", "travel_advice", "destination_expertise", "budget_planning"],
+      "keywords": ["travel", "trip", "vacation", "holiday", "booking", "flight", "hotel", "itinerary", "plan", "tour", "package", "cruise", "resort", "airline"],
+      "priority": 2,
+      "system_prompt_template": "You are a professional travel agent with extensive experience in travel planning and destination expertise. Provide comprehensive travel advice including itinerary suggestions, booking recommendations, budget planning, and practical travel tips. Consider factors like weather, local culture, transportation, and activities. Be helpful, detailed, and enthusiastic about creating memorable travel experiences. Use travel emojis to make responses engaging."
+    }
+  ],
+  "routing_rules": {
+    "RouterAgent": {
+      "weather_query": ["WeatherAgent"],
+      "dining_query": ["DiningAgent"],
+      "location_query": ["ScenicLocationFinderAgent"],
+      "forest_query": ["ForestAnalyzerAgent"],
+      "search_query": ["SearchAgent"],
+      "complex_travel": ["WeatherAgent", "DiningAgent", "ScenicLocationFinderAgent"],
+      "nature_exploration": ["ForestAnalyzerAgent", "WeatherAgent", "ScenicLocationFinderAgent"],
+      "default": ["ScenicLocationFinderAgent"]
+    },
+    "WeatherAgent": {
+      "needs_location": ["ScenicLocationFinderAgent"],
+      "needs_dining": ["DiningAgent"],
+      "end": []
+    },
+    "DiningAgent": {
+      "needs_weather": ["WeatherAgent"],
+      "needs_location": ["ScenicLocationFinderAgent"],
+      "end": []
+    },
+    "ScenicLocationFinderAgent": {
+      "needs_weather": ["WeatherAgent"],
+      "needs_dining": ["DiningAgent"],
+      "needs_forest_info": ["ForestAnalyzerAgent"],
+      "end": []
+    },
+    "ForestAnalyzerAgent": {
+      "needs_location": ["ScenicLocationFinderAgent"],
+      "needs_weather": ["WeatherAgent"],
+      "end": []
+    },
+    "SearchAgent": {
+      "end": []
+    }
+  },
+  "memory_settings": {
+    "stm_expiry_seconds": 3600,
+    "ltm_retention_days": 365,
+    "max_context_items": 10
+  },
+  "client_agent_templates": {
+    "basic_agent": {
+      "id": "YourAgentName",
+      "name": "Your Agent Display Name",
+      "description": "Brief description of what your agent does",
+      "capabilities": ["capability1", "capability2", "capability3"],
+      "keywords": ["keyword1", "keyword2", "keyword3"],
+      "priority": 2,
+      "system_prompt_template": "You are a [role]. Provide [specific services]. Focus on [key areas]."
+    },
+    "business_agent": {
+      "id": "BusinessAgent",
+      "name": "Business Advisory Agent",
+      "description": "Provides business advice and strategic insights",
+      "capabilities": ["business_analysis", "strategy_planning", "market_research"],
+      "keywords": ["business", "strategy", "market", "analysis", "planning", "finance"],
+      "priority": 2,
+      "system_prompt_template": "You are a business consultant and strategic advisor. Provide practical business advice, market insights, and strategic planning guidance."
+    }
+  }
+}

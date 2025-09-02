@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph AI System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        /* Additional inline styles for enhanced functionality */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .agent-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .agent-emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .agent-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .agent-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .chat-section {
+            margin-top: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .user-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .user-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .response-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            min-height: 200px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .response-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .agent-used {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .response-content {
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .example-queries {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .example-queries h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .query-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        
+        .query-example {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-left: 3px solid #667eea;
+        }
+        
+        .query-example:hover {
+            background-color: #e9ecef;
+        }
+        
+        .status-bar {
+            background: #343a40;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #28a745;
+        }
+        
+        .markdown-content h2 {
+            color: #667eea;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 5px;
+            margin: 20px 0 10px 0;
+        }
+        
+        .markdown-content h3 {
+            color: #495057;
+            margin: 15px 0 8px 0;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 LangGraph Multi-Agent AI System</h1>
+            <p>Intelligent query routing with specialized AI agents</p>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>System Online</span>
+            </div>
+            <div>
+                <span id="system-info">7 Agents • JSON-Configured • Ready</span>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <span class="agent-emoji">🌤️</span>
+                    <div class="agent-name">Weather Agent</div>
+                    <div class="agent-description">Weather forecasts, climate analysis, and weather planning</div>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-emoji">🍽️</span>
+                    <div class="agent-name">Dining Agent</div>
+                    <div class="agent-description">Restaurant recommendations and cuisine analysis</div>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-emoji">🏔️</span>
+                    <div class="agent-name">Location Scout</div>
+                    <div class="agent-description">Scenic destinations and travel recommendations</div>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-emoji">🌲</span>
+                    <div class="agent-name">Forest Analyzer</div>
+                    <div class="agent-description">Forest ecosystems and conservation insights</div>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-emoji">🔍</span>
+                    <div class="agent-name">Memory Search</div>
+                    <div class="agent-description">Historical query analysis and pattern recognition</div>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-emoji">✈️</span>
+                    <div class="agent-name">Travel Agent</div>
+                    <div class="agent-description">Comprehensive travel planning and booking</div>
+                </div>
+            </div>
+            
+            <div class="example-queries">
+                <h3>💡 Try these example queries:</h3>
+                <div class="query-examples">
+                    <div class="query-example" onclick="fillQuery('What\\'s the weather like in Paris tomorrow?')">
+                        🌤️ "What's the weather like in Paris tomorrow?"
+                    </div>
+                    <div class="query-example" onclick="fillQuery('Best restaurants in Tokyo for sushi')">
+                        🍽️ "Best restaurants in Tokyo for sushi"
+                    </div>
+                    <div class="query-example" onclick="fillQuery('Show me scenic mountain locations in Switzerland')">
+                        🏔️ "Show me scenic mountain locations in Switzerland"
+                    </div>
+                    <div class="query-example" onclick="fillQuery('Plan a 5-day vacation to Italy')">
+                        ✈️ "Plan a 5-day vacation to Italy"
+                    </div>
+                    <div class="query-example" onclick="fillQuery('Tell me about forest conservation in Amazon')">
+                        🌲 "Tell me about forest conservation in Amazon"
+                    </div>
+                    <div class="query-example" onclick="fillQuery('Search my previous queries about travel')">
+                        🔍 "Search my previous queries about travel"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-section">
+                <div class="input-group">
+                    <input type="text" id="userQuery" class="user-input" 
+                           placeholder="Ask me anything! I'll route your query to the right specialist..." 
+                           onkeypress="handleKeyPress(event)">
+                    <button onclick="sendQuery()" class="send-btn" id="sendBtn">Send</button>
+                </div>
+                
+                <div class="loading" id="loadingDiv">
+                    <div class="spinner"></div>
+                    <div>Processing your query with specialized agents...</div>
+                </div>
+                
+                <div class="response-container" id="responseContainer" style="display: none;">
+                    <div class="response-header">
+                        <div>
+                            <strong>🤖 AI Response</strong>
+                        </div>
+                        <div class="agent-used" id="agentUsed">Agent</div>
+                    </div>
+                    <div class="response-content markdown-content" id="responseContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fillQuery(query) {
+            document.getElementById('userQuery').value = query;
+            document.getElementById('userQuery').focus();
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendQuery();
+            }
+        }
+        
+        async function sendQuery() {
+            const userQuery = document.getElementById('userQuery').value.trim();
+            if (!userQuery) {
+                alert('Please enter a query!');
+                return;
+            }
+            
+            const sendBtn = document.getElementById('sendBtn');
+            const loadingDiv = document.getElementById('loadingDiv');
+            const responseContainer = document.getElementById('responseContainer');
+            
+            // Show loading state
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Processing...';
+            loadingDiv.style.display = 'block';
+            responseContainer.style.display = 'none';
+            
+            try {
+                const response = await fetch('/run_graph', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user: 'WebUser',
+                        question: userQuery
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                // Display response
+                displayResponse(result);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('responseContent').innerHTML = 
+                    `<div style="color: red;"><strong>Error:</strong> Failed to process query. ${error.message}</div>`;
+                document.getElementById('agentUsed').textContent = 'Error';
+                responseContainer.style.display = 'block';
+            } finally {
+                // Reset UI state
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+                loadingDiv.style.display = 'none';
+            }
+        }
+        
+        function displayResponse(result) {
+            const responseContainer = document.getElementById('responseContainer');
+            const responseContent = document.getElementById('responseContent');
+            const agentUsed = document.getElementById('agentUsed');
+            
+            // Format the response content
+            let formattedResponse = result.response || 'No response generated.';
+            
+            // Convert basic markdown to HTML
+            formattedResponse = formattedResponse
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/#{2,3}\s+(.*?)$/gm, '<h3>$1</h3>')
+                .replace(/#{1}\s+(.*?)$/gm, '<h2>$1</h2>')
+                .replace(/^- (.*?)$/gm, '<li>$1</li>')
+                .replace(/(\n<li>.*<\/li>\n)/gs, '<ul>$1</ul>')
+                .replace(/\n/g, '<br>');
+            
+            responseContent.innerHTML = formattedResponse;
+            
+            // Show which agent(s) were used
+            if (result.agents_involved && result.agents_involved.length > 0) {
+                agentUsed.textContent = result.agents_involved.join(', ');
+            } else if (result.agent) {
+                agentUsed.textContent = result.agent;
+            } else {
+                agentUsed.textContent = 'Multi-Agent';
+            }
+            
+            responseContainer.style.display = 'block';
+            
+            // Scroll to response
+            responseContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Check system status on page load
+        window.onload = function() {
+            checkSystemStatus();
+        };
+        
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch('/health');
+                const result = await response.json();
+                
+                if (result.status) {
+                    document.getElementById('system-info').textContent = '7 Agents • JSON-Configured • Ready';
+                }
+            } catch (error) {
+                document.getElementById('system-info').textContent = 'System Status Unknown';
+                console.error('Status check failed:', error);
+            }
+        }
+    </script>
+</body>
+</html>

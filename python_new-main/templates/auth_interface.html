@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph AI System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-container">
+            <h1><i class="fas fa-robot"></i> LangGraph AI System</h1>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="welcomeMessage">Welcome!</span>
+                <button class="btn btn-outline" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="auth-container" id="loginContainer">
+        <div class="auth-card">
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="auth-switch">
+                Don't have an account? <a href="#" id="showRegister">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Container -->
+    <div class="auth-container" id="registerContainer" style="display: none;">
+        <div class="auth-card">
+            <h2><i class="fas fa-user-plus"></i> Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" name="password" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </form>
+            <div class="auth-switch">
+                Already have an account? <a href="#" id="showLogin">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-clock"></i> Recent Usage</h3>
+                <div id="recentUsage" class="recent-usage">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-cogs"></i> Active Agents</h3>
+                <div id="activeAgents" class="active-agents">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2><i class="fas fa-comments"></i> AI Chat</h2>
+                <div class="connection-status">
+                    <div class="status-indicator" id="ollamaStatus">
+                        <i class="fas fa-circle"></i>
+                        <span>Checking...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message system-message">
+                    <div class="message-content">
+                        Welcome to the LangGraph AI System! Ask me anything about scenic locations, forests, water bodies, or general AI topics.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-container">
+                <form class="chat-form" id="chatForm">
+                    <input type="text" id="chatInput" placeholder="Ask me anything..." disabled>
+                    <button type="submit" class="btn btn-primary" id="sendBtn" disabled>
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </form>
+                <div class="quick-actions">
+                    <button class="quick-btn" data-query="Find beautiful waterfalls in Iceland">
+                        🏞️ Iceland waterfalls
+                    </button>
+                    <button class="quick-btn" data-query="Tell me about forest conservation">
+                        🌲 Forest conservation
+                    </button>
+                    <button class="quick-btn" data-query="Best mountain lakes for swimming">
+                        🏔️ Mountain lakes
+                    </button>
+                    <button class="quick-btn" data-query="Search my previous conversations">
+                        🔍 Search history
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

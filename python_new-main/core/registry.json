@@ -1,0 +1,19 @@
+{
+  "agents": [
+    {
+      "name": "ScenicLocationFinder",
+      "module": "scenic_agent",
+      "depends_on": []
+    },
+    {
+      "name": "ForestAnalyzer",
+      "module": "forest_analyzer",
+      "depends_on": []
+    },
+    {
+      "name": "WaterBodyAnalyzer",
+      "module": "waterbody_analyzer",
+      "depends_on": []
+    }
+  ]
+}
