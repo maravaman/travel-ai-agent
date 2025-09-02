@@ -45,14 +45,20 @@ try:
 except ImportError:
     get_mysql_conn = None
 
+# Import travel endpoints
+try:
+    from api.travel_endpoints import router as travel_router
+except ImportError:
+    travel_router = None
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ✅ FastAPI Setup
 app = FastAPI(
-    title="LangGraph AI Agent System",
-    description="Multi-agent AI system with intelligent orchestration",
+    title="Travel Assistant - LangGraph Multi-Agent System",
+    description="Intelligent travel planning assistant with specialized agents",
     version="1.0.0"
 )
 
@@ -63,6 +69,10 @@ templates = Jinja2Templates(directory="templates")
 # Include authentication router (if available)
 if auth_router:
     app.include_router(auth_router)
+
+# Include travel router (if available)
+if travel_router:
+    app.include_router(travel_router)
 
 # ✅ Globalsh
 memory_manager = MemoryManager()
@@ -200,25 +210,25 @@ class ChatInput(BaseModel):
 # ✅ Main UI Route
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    # Check if we should serve the authenticated interface or simple interface
-    user_agent = request.headers.get("user-agent", "").lower()
-    if "curl" in user_agent or request.query_params.get("simple") == "true":
-        return templates.TemplateResponse("index.html", {"request": request})
-    else:
-        # Serve the full authenticated interface by default
-        return templates.TemplateResponse("auth_interface.html", {"request": request})
+    # Serve the new travel interface
+    return templates.TemplateResponse("travel_interface.html", {"request": request})
 
 # ✅ Simple Interface Route
 @app.get("/simple", response_class=HTMLResponse)
 async def simple_interface(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+# ✅ Legacy Interface Route
+@app.get("/legacy", response_class=HTMLResponse)
+async def legacy_interface(request: Request):
+    return templates.TemplateResponse("auth_interface.html", {"request": request})
+
 # ✅ Updated run_graph endpoint with LangGraph Multiagent System
 @app.post("/run_graph")
 async def run_graph_authenticated(payload: GraphInput, current_user: dict = Depends(get_current_user) if get_current_user else None):
-    """Run LangGraph Multiagent System with Weather and Dining agents"""
+    """Run Travel Assistant with specialized travel agents"""
     try:
-        # Import the new multiagent system
+        # Import the travel-enhanced multiagent system
         from core.langgraph_multiagent_system import langgraph_multiagent_system
         
         # Use authenticated user ID if available, otherwise generate temporary ID
@@ -231,7 +241,7 @@ async def run_graph_authenticated(payload: GraphInput, current_user: dict = Depe
         
         start_time = datetime.now()
         
-        # Process request through LangGraph Multiagent System
+        # Process request through Travel Assistant System
         result = langgraph_multiagent_system.process_request(
             user=username,
             user_id=user_id,
@@ -262,13 +272,13 @@ async def run_graph_authenticated(payload: GraphInput, current_user: dict = Depe
         return result
         
     except Exception as e:
-        logger.error(f"Multiagent system execution error: {e}")
-        raise HTTPException(status_code=500, detail=f"Multiagent system execution failed: {str(e)}")
+        logger.error(f"Travel assistant execution error: {e}")
+        raise HTTPException(status_code=500, detail=f"Travel assistant execution failed: {str(e)}")
 
 # ✅ Legacy run_graph endpoint without authentication (for backward compatibility)
 @app.post("/run_graph_legacy")
 async def run_graph_legacy(payload: GraphInput):
-    """Legacy run_graph endpoint using new multiagent system"""
+    """Legacy run_graph endpoint using travel assistant system"""
     try:
         from core.langgraph_multiagent_system import langgraph_multiagent_system
         
@@ -281,8 +291,8 @@ async def run_graph_legacy(payload: GraphInput):
         return result
         
     except Exception as e:
-        logger.error(f"Multiagent system execution error: {e}")
-        raise HTTPException(status_code=500, detail=f"Multiagent system execution failed: {str(e)}")
+        logger.error(f"Travel assistant execution error: {e}")
+        raise HTTPException(status_code=500, detail=f"Travel assistant execution failed: {str(e)}")
 
 # async def ai_chat(
 #     input_data: ChatInput,

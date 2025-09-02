@@ -352,106 +352,125 @@ class AgentPromptManager:
                 Return a JSON response with relevant matches and similarity explanations."""
             },
             
-            "ScenicLocationFinder": {
-                "system": """You are a scenic location finding agent. You help users discover beautiful, 
-                interesting, and scenic places based on their preferences and queries.""",
-                "template": """Help find scenic locations based on: {query}
+            "TextTripAnalyzer": {
+                "system": """You are TextTripAnalyzer, an expert at analyzing travel planning conversations and extracting key information.""",
+                "template": """Analyze this travel planning text and extract goals, constraints, and destinations: {query}
                 
-                Consider factors like:
-                - Natural beauty and landscapes
-                - Accessibility and safety
-                - Season and weather considerations
-                - User preferences from context: {context}
+                Context: {context}
                 
-                Provide detailed recommendations with practical information."""
+                Extract and identify:
+                - Travel goals and objectives
+                - Budget constraints and limitations
+                - Preferred destinations
+                - Travel preferences and requirements"""
             },
             
-            "ForestAnalyzer": {
-                "system": """You are a forest analysis agent specializing in forest ecology, 
-                conservation, and forest-related information.""",
-                "template": """Analyze forest-related query: {query}
+            "TripMoodDetector": {
+                "system": """You are TripMoodDetector, an expert at analyzing emotional states and mood from travel planning conversations.""",
+                "template": """Analyze the emotional state and mood in this travel planning text: {query}
                 
-                Context from previous interactions: {context}
+                Context: {context}
                 
-                Provide detailed analysis covering:
-                - Ecosystem characteristics
-                - Biodiversity considerations
-                - Conservation status
-                - Management recommendations if applicable"""
+                Detect and analyze:
+                - Excitement levels and enthusiasm
+                - Stress indicators and anxiety
+                - Indecision and uncertainty patterns
+                - Overall emotional tone"""
             },
             
-            "WaterBodyAnalyzer": {
-                "system": """You are a water body analysis agent specializing in hydrology, 
-                water quality, and aquatic ecosystems.""",
-                "template": """Analyze water body related query: {query}
+            "TripCommsCoach": {
+                "system": """You are TripCommsCoach, an expert communication coach for travelers.""",
+                "template": """Provide communication coaching and phrasing tips for this travel scenario: {query}
                 
-                Previous context: {context}
+                Context: {context}
                 
-                Cover aspects like:
-                - Hydrological characteristics
-                - Water quality parameters
-                - Aquatic ecosystem health
-                - Environmental factors and impacts"""
+                Provide:
+                - 2-3 specific phrasing examples
+                - Communication strategies
+                - Cultural considerations
+                - Practical interaction tips"""
+            },
+            
+            "TripBehaviorGuide": {
+                "system": """You are TripBehaviorGuide, an expert behavioral coach for travelers.""",
+                "template": """Provide behavioral guidance and next steps for this travel situation: {query}
+                
+                Context: {context}
+                
+                Provide:
+                - Clear, actionable next steps
+                - Behavioral nudges to overcome barriers
+                - Prioritized action lists
+                - Decision support strategies"""
+            },
+            
+            "TripCalmPractice": {
+                "system": """You are TripCalmPractice, a mindfulness and stress relief expert for travelers.""",
+                "template": """Provide calming techniques and stress relief for this travel situation: {query}
+                
+                Context: {context}
+                
+                Provide:
+                - Quick calming techniques (90-second exercises)
+                - Stress management strategies
+                - Mindfulness practices
+                - Anxiety relief methods"""
+            },
+            
+            "TripSummarySynth": {
+                "system": """You are TripSummarySynth, an expert at synthesizing travel information and maintaining user profiles.""",
+                "template": """Synthesize travel planning information and provide comprehensive summary: {query}
+                
+                Context: {context}
+                
+                Provide:
+                - Comprehensive travel summary
+                - Integrated recommendations
+                - User profile insights
+                - Actionable next steps"""
             },
             
             "WeatherAgent": {
-                "system": """You are WeatherAgent, a specialized weather analysis assistant. Provide accurate, helpful weather information including:
-                - Current conditions and forecasts
-                - Climate analysis and seasonal patterns
-                - Weather-related planning advice
-                - Impact on outdoor activities
-                Be practical and actionable in your responses.""",
-                "template": """Weather Query: {query}
+                "system": """You are WeatherAgent, a weather specialist for travel planning.""",
+                "template": """Provide weather information for travel planning: {query}
                 
                 Context: {context}
                 
-                Please provide comprehensive weather information including:
-                1. Current conditions or forecast as appropriate
-                2. Temperature information
-                3. Precipitation chances if relevant
-                4. Wind conditions
-                5. Any weather advisories or recommendations
-                6. Impact on activities if mentioned
-                
-                Be specific, practical, and helpful."""
+                Focus on travel-relevant weather information."""
             },
             
             "DiningAgent": {
-                "system": """You are DiningAgent, a culinary and restaurant specialist. Provide excellent dining recommendations including:
-                - Restaurant suggestions and cuisine types
-                - Local food culture and specialties
-                - Dining experiences and ambiance
-                - Food and weather/location considerations
-                Be descriptive and helpful for dining decisions.""",
-                "template": """Dining Query: {query}
+                "system": """You are DiningAgent, a culinary specialist for travel planning.""",
+                "template": """Provide dining recommendations for travel: {query}
                 
                 Context: {context}
                 
-                Please provide comprehensive dining recommendations including:
-                1. Restaurant suggestions or cuisine types
-                2. Location considerations and accessibility
-                3. Ambiance and dining experience
-                4. Menu highlights or signature dishes
-                5. Price range and value considerations
-                6. Special dietary accommodations if mentioned
+                Focus on travel-relevant dining experiences."""
+            },
+            
+            "ScenicLocationFinderAgent": {
+                "system": """You are ScenicLocationFinder, a destination specialist for travel planning.""",
+                "template": """Provide scenic location recommendations for travel: {query}
                 
-                Be specific, enticing, and practical in your recommendations."""
+                Context: {context}
+                
+                Focus on travel-relevant destinations and attractions."""
             },
             
             "OrchestratorAgent": {
-                "system": """You are an orchestrator agent that routes queries to appropriate specialist agents.
-                Analyze the query and determine which agents should handle it.""",
-                "template": """Analyze this query for routing: {query}
+                "system": """You are a travel orchestrator that routes queries to appropriate travel specialist agents.""",
+                "template": """Analyze this travel query for routing: {query}
                 
-                Available agents and their capabilities:
+                Available travel agents and their capabilities:
                 - SearchAgent: Similarity search in user history
-                - ScenicLocationFinder: Finding beautiful locations
-                - ForestAnalyzer: Forest ecology and analysis
-                - WaterBodyAnalyzer: Water bodies and hydrology
-                - WeatherAgent: Weather forecasts and climate analysis
-                - DiningAgent: Restaurant recommendations and cuisine analysis
+                - TextTripAnalyzer: Extract goals, constraints, destinations
+                - TripMoodDetector: Detect emotions and stress
+                - TripCommsCoach: Communication tips and phrasing
+                - TripBehaviorGuide: Behavioral guidance and next steps
+                - TripCalmPractice: Calming techniques and stress relief
+                - TripSummarySynth: Synthesis and profile updates
                 
-                Determine which agent(s) should handle this query and why.
+                Determine which travel agent(s) should handle this query and why.
                 Return routing decision as JSON."""
             }
         }
@@ -462,7 +481,7 @@ class AgentPromptManager:
             # Validate inputs
             if not agent_name or not isinstance(agent_name, str):
                 logger.warning(f"Invalid agent_name: {agent_name}, using default")
-                agent_name = "ScenicLocationFinder"
+                agent_name = "TextTripAnalyzer"
             
             if not query or not isinstance(query, str):
                 logger.warning(f"Invalid query: {query}, using default")
@@ -473,13 +492,18 @@ class AgentPromptManager:
             
             # Check if agent exists, fallback to default
             if agent_name not in self.agent_prompts:
-                # Handle ScenicLocationFinderAgent mapping to ScenicLocationFinder
-                if agent_name == "ScenicLocationFinderAgent":
-                    logger.debug(f"Mapping {agent_name} to ScenicLocationFinder")
-                    agent_name = "ScenicLocationFinder"
+                # Handle agent mapping for travel agents
+                if agent_name.endswith("Agent"):
+                    base_name = agent_name[:-5]  # Remove "Agent" suffix
+                    if base_name in self.agent_prompts:
+                        logger.debug(f"Mapping {agent_name} to {base_name}")
+                        agent_name = base_name
+                    else:
+                        logger.warning(f"Agent {agent_name} not found, using TextTripAnalyzer")
+                        agent_name = "TextTripAnalyzer"
                 else:
-                    logger.warning(f"Agent {agent_name} not found, using ScenicLocationFinder")
-                    agent_name = "ScenicLocationFinder"
+                    logger.warning(f"Agent {agent_name} not found, using TextTripAnalyzer")
+                    agent_name = "TextTripAnalyzer"
             
             agent_config = self.agent_prompts.get(agent_name)
             if not agent_config or not isinstance(agent_config, dict):
@@ -523,7 +547,7 @@ class AgentPromptManager:
     def _get_fallback_prompt(self, query: str, context: str) -> Dict[str, str]:
         """Get fallback prompt when normal prompt generation fails"""
         return {
-            "system": "You are a helpful AI assistant. Provide accurate and helpful responses.",
+            "system": "You are a helpful travel assistant. Provide accurate and helpful travel-related responses.",
             "prompt": f"Please respond to this query: {query or 'General query'}\n\nContext: {context or 'No context available'}"
         }
 

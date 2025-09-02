@@ -20,11 +20,11 @@ class Config:
     
     # Application Settings
     APP_HOST: str = os.getenv('APP_HOST', 'localhost')
-    APP_PORT: int = int(os.getenv('APP_PORT', '8003'))
+    APP_PORT: int = int(os.getenv('APP_PORT', '8000'))
     DEBUG: bool = os.getenv('DEBUG', 'False').lower() == 'true'
-    APP_TITLE: str = os.getenv('APP_TITLE', 'LangGraph Multi-Agent System')
-    APP_DESCRIPTION: str = os.getenv('APP_DESCRIPTION', 'Enhanced multi-agent AI system with UI display and JSON storage')
-    APP_VERSION: str = os.getenv('APP_VERSION', '2.0.0-multiagent')
+    APP_TITLE: str = os.getenv('APP_TITLE', 'Travel Assistant - Multi-Agent System')
+    APP_DESCRIPTION: str = os.getenv('APP_DESCRIPTION', 'AI-powered travel planning assistant with specialized agents')
+    APP_VERSION: str = os.getenv('APP_VERSION', '3.0.0-travel')
     
     # Security Settings
     SECRET_KEY: str = os.getenv('SECRET_KEY', 'change-this-secret-key-in-production')
@@ -34,8 +34,8 @@ class Config:
     # Database Configuration
     MYSQL_HOST: str = os.getenv('MYSQL_HOST', 'localhost')
     MYSQL_USER: str = os.getenv('MYSQL_USER', 'root')
-    MYSQL_PASSWORD: str = os.getenv('MYSQL_PASSWORD', 'root')
-    MYSQL_DATABASE: str = os.getenv('MYSQL_DATABASE', 'langgraph_ai_system')
+    MYSQL_PASSWORD: str = os.getenv('MYSQL_PASSWORD', '')
+    MYSQL_DATABASE: str = os.getenv('MYSQL_DATABASE', 'travel_assistant')
     MYSQL_PORT: int = int(os.getenv('MYSQL_PORT', '3306'))
     MYSQL_CONNECT_TIMEOUT: int = int(os.getenv('MYSQL_CONNECT_TIMEOUT', '10'))
     MYSQL_CHARSET: str = os.getenv('MYSQL_CHARSET', 'utf8mb4')
@@ -50,18 +50,20 @@ class Config:
     # Ollama Configuration
     OLLAMA_BASE_URL: str = os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434')
     OLLAMA_DEFAULT_MODEL: str = os.getenv('OLLAMA_DEFAULT_MODEL', 'llama3:latest')
-    OLLAMA_TIMEOUT: int = int(os.getenv('OLLAMA_TIMEOUT', '300'))  # Increased to 5 minutes for complex queries
+    OLLAMA_TIMEOUT: int = int(os.getenv('OLLAMA_TIMEOUT', '30'))  # Optimized for travel assistant
     OLLAMA_CONNECTION_TIMEOUT: int = int(os.getenv('OLLAMA_CONNECTION_TIMEOUT', '10'))  # Connection timeout
-    OLLAMA_READ_TIMEOUT: int = int(os.getenv('OLLAMA_READ_TIMEOUT', '300'))  # Read timeout for responses
+    OLLAMA_READ_TIMEOUT: int = int(os.getenv('OLLAMA_READ_TIMEOUT', '30'))  # Read timeout for responses
     OLLAMA_MAX_RETRIES: int = int(os.getenv('OLLAMA_MAX_RETRIES', '3'))  # Number of retry attempts
     OLLAMA_RETRY_DELAY: float = float(os.getenv('OLLAMA_RETRY_DELAY', '2.0'))  # Initial retry delay in seconds
-    OLLAMA_MAX_TOKENS: int = int(os.getenv('OLLAMA_MAX_TOKENS', '1000'))
+    OLLAMA_MAX_TOKENS: int = int(os.getenv('OLLAMA_MAX_TOKENS', '2000'))
     OLLAMA_TEMPERATURE: float = float(os.getenv('OLLAMA_TEMPERATURE', '0.7'))
     
-    # Agent Configuration
-    AGENT_MAX_RESPONSE_LENGTH: int = int(os.getenv('AGENT_MAX_RESPONSE_LENGTH', '5000'))
-    AGENT_PROCESSING_TIMEOUT: int = int(os.getenv('AGENT_PROCESSING_TIMEOUT', '60'))
-    MULTI_AGENT_MAX_AGENTS: int = int(os.getenv('MULTI_AGENT_MAX_AGENTS', '3'))
+    # Travel Agent Configuration
+    TRAVEL_CHAT_SLA_SECONDS: int = int(os.getenv('TRAVEL_CHAT_SLA_SECONDS', '3'))
+    TRAVEL_BATCH_SLA_SECONDS: int = int(os.getenv('TRAVEL_BATCH_SLA_SECONDS', '60'))
+    TRAVEL_MAX_AGENTS_CHAT: int = int(os.getenv('TRAVEL_MAX_AGENTS_CHAT', '3'))
+    TRAVEL_MAX_AGENTS_BATCH: int = int(os.getenv('TRAVEL_MAX_AGENTS_BATCH', '6'))
+    TRAVEL_SESSION_TIMEOUT_MINUTES: int = int(os.getenv('TRAVEL_SESSION_TIMEOUT_MINUTES', '60'))
     
     # UI Configuration
     STATIC_DIR: str = os.getenv('STATIC_DIR', 'static')
