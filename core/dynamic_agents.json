@@ -1,0 +1,180 @@
+{
+  "version": "1.0.0",
+  "description": "Dynamic Agent Configuration for Travel Assistant",
+  "agents": [
+    {
+      "name": "TextTripAnalyzer",
+      "file_path": "agents/text_trip_analyzer.py",
+      "class_name": "TextTripAnalyzerAgent",
+      "enabled": true,
+      "priority": 1,
+      "entry_point": "main",
+      "description": "Analyzes trip planning text to extract goals and constraints",
+      "capabilities": [
+        "text_analysis",
+        "goal_extraction", 
+        "constraint_identification",
+        "destination_parsing",
+        "preference_detection",
+        "budget_analysis"
+      ],
+      "keywords": [
+        "plan", "trip", "travel", "vacation", "holiday", "destination", 
+        "budget", "goal", "want", "need", "prefer", "constraint", "limit"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 30,
+        "temperature": 0.3,
+        "max_tokens": 2000
+      }
+    },
+    {
+      "name": "TripMoodDetector", 
+      "file_path": "agents/trip_mood_detector.py",
+      "class_name": "TripMoodDetectorAgent",
+      "enabled": true,
+      "priority": 2,
+      "entry_point": "main",
+      "description": "Detects emotional states in travel planning conversations",
+      "capabilities": [
+        "mood_detection",
+        "emotion_analysis", 
+        "stress_identification",
+        "excitement_measurement",
+        "indecision_detection",
+        "sentiment_analysis"
+      ],
+      "keywords": [
+        "excited", "nervous", "stressed", "worried", "confused", "unsure",
+        "overwhelmed", "anxious", "happy", "thrilled", "mood", "feeling"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 25,
+        "temperature": 0.6,
+        "max_tokens": 1500
+      }
+    },
+    {
+      "name": "TripCommsCoach",
+      "file_path": "agents/trip_comms_coach.py", 
+      "class_name": "TripCommsCoachAgent",
+      "enabled": true,
+      "priority": 2,
+      "entry_point": "main",
+      "description": "Provides communication tips for travel interactions",
+      "capabilities": [
+        "communication_coaching",
+        "phrasing_suggestions",
+        "cultural_communication",
+        "negotiation_tips",
+        "language_assistance"
+      ],
+      "keywords": [
+        "communicate", "talk", "speak", "ask", "tell", "say", "phrase",
+        "hotel", "guide", "partner", "local", "staff"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 20,
+        "temperature": 0.7,
+        "max_tokens": 1000
+      }
+    },
+    {
+      "name": "TripBehaviorGuide",
+      "file_path": "agents/trip_behavior_guide.py",
+      "class_name": "TripBehaviorGuideAgent", 
+      "enabled": true,
+      "priority": 2,
+      "entry_point": "main",
+      "description": "Provides behavioral guidance and next steps",
+      "capabilities": [
+        "behavioral_guidance",
+        "next_step_planning",
+        "decision_support",
+        "action_prioritization",
+        "habit_formation"
+      ],
+      "keywords": [
+        "next", "step", "action", "do", "should", "behavior", "habit",
+        "guide", "advice", "recommend", "suggest", "help"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 25,
+        "temperature": 0.5,
+        "max_tokens": 1500
+      }
+    },
+    {
+      "name": "TripCalmPractice",
+      "file_path": "agents/trip_calm_practice.py",
+      "class_name": "TripCalmPracticeAgent",
+      "enabled": true,
+      "priority": 2, 
+      "entry_point": "main",
+      "description": "Provides calming techniques for travel stress",
+      "capabilities": [
+        "stress_relief",
+        "calming_techniques",
+        "breathing_exercises",
+        "mindfulness_practices",
+        "anxiety_management"
+      ],
+      "keywords": [
+        "calm", "relax", "stress", "anxiety", "nervous", "worried",
+        "overwhelmed", "breathe", "meditation", "mindful", "peace"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 20,
+        "temperature": 0.6,
+        "max_tokens": 1200
+      }
+    },
+    {
+      "name": "TripSummarySynth",
+      "file_path": "agents/trip_summary_synth.py",
+      "class_name": "TripSummarySynthAgent",
+      "enabled": true,
+      "priority": 1,
+      "entry_point": "main", 
+      "description": "Synthesizes multi-agent outputs and updates profiles",
+      "capabilities": [
+        "response_synthesis",
+        "profile_updating",
+        "preference_learning",
+        "pattern_recognition",
+        "summary_generation"
+      ],
+      "keywords": [
+        "summary", "synthesize", "combine", "overall", "conclusion",
+        "profile", "preferences", "update", "learn", "pattern"
+      ],
+      "execution_settings": {
+        "timeout_seconds": 35,
+        "temperature": 0.4,
+        "max_tokens": 2500
+      }
+    }
+  ],
+  "execution_settings": {
+    "max_concurrent_agents": 3,
+    "timeout_seconds": 30,
+    "retry_attempts": 2,
+    "enable_logging": true,
+    "enable_error_recovery": true,
+    "memory_integration": true
+  },
+  "routing_rules": {
+    "default_agent": "TextTripAnalyzer",
+    "fallback_agent": "TripSummarySynth", 
+    "multi_agent_threshold": 2,
+    "keyword_weight": 1.0,
+    "capability_weight": 0.8,
+    "priority_weight": 0.5
+  },
+  "reflection_settings": {
+    "auto_discover_functions": true,
+    "validate_inheritance": true,
+    "check_entry_points": true,
+    "enable_hot_reload": true
+  }
+}
